@@ -1,20 +1,27 @@
 /*
- * Copyright (C) 2017 Arnaud HAMON-KEROMEN
+ * The MIT License
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Copyright 2017 Arnaud Hamon
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
-package fr.noony.gameutils;
+package com.github.ptitnoony.gameutils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +45,25 @@ public class PlayerFactory {
         // private utility constructor
     }
 
+    /**
+     * Get the players already created. This method is time consuming as it
+     * creates a new unmodifiable list.
+     *
+     * @return list of existing players
+     */
     public static List<Player> getCreatedPlayers() {
         // doc that time consuming method
         return PLAYERS.entrySet().stream().map(entry -> entry.getValue()).collect(Collectors.toList());
     }
 
+    /**
+     * Create a player using the given parameters.
+     *
+     * @param firstName player first name
+     * @param lastName player last name
+     * @param nickName player nickname
+     * @return the created player
+     */
     public static Player createPlayer(String firstName, String lastName, String nickName) {
         while (PLAYERS.containsKey(nextUniqueID)) {
             nextUniqueID++;
@@ -53,6 +74,16 @@ public class PlayerFactory {
         return player;
     }
 
+    /**
+     * Create a player with the given parameters. Will throw an exception if the
+     * unique id is already used by another player.
+     *
+     * @param id the player unique id
+     * @param firstName player first name
+     * @param lastName player last name
+     * @param nickName player nickname
+     * @return the created player
+     */
     public static Player createPlayer(int id, String firstName, String lastName, String nickName) {
         if (PLAYERS.containsKey(id)) {
             //TODO: message
@@ -64,11 +95,28 @@ public class PlayerFactory {
         return player;
     }
 
+    /**
+     * Get a created player using its unique id
+     *
+     * @param playerID the player unique id
+     * @return the corresponding created player if exists, null otherwise
+     */
     public static Player getPlayerFromID(int playerID) {
         return PLAYERS.get(playerID);
     }
 
+    /**
+     * Tests if given attributes are suitable for creating a new player.
+     *
+     * @param firstName player first name
+     * @param lastName player last name
+     * @param nickName player nick name
+     * @return if the player attributes are valid for player creation.
+     */
     public static boolean areValidPlayerAttibutes(String firstName, String lastName, String nickName) {
+        if (firstName == null || lastName == null || nickName == null) {
+            return false;
+        }
         //TODO: test existence
         return !firstName.trim().isEmpty() && !lastName.trim().isEmpty() && !nickName.trim().isEmpty();
     }

@@ -1,20 +1,27 @@
 /*
- * Copyright (C) 2017 Arnaud HAMON-KEROMEN
+ * The MIT License
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Copyright 2017 Arnaud Hamon
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
-package fr.noony.gameutils;
+package com.github.ptitnoony.gameutils;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,11 +46,29 @@ import org.xml.sax.SAXException;
  */
 public class PlayerXmlUtils {
 
+    /**
+     * Player XML element
+     */
     public static final String PLAYER_ELEMENT = "PLAYER";
 
+    /**
+     * Player first name XML attribute
+     */
     public static final String FIRST_NAME = "firstName";
+
+    /**
+     * Player last name XML attribute
+     */
     public static final String LAST_NAME = "lastName";
+
+    /**
+     * Player nickname XML attribute
+     */
     public static final String NICK_NAME = "nickName";
+
+    /**
+     * Player first id XML attribute
+     */
     public static final String ID = "id";
 
     private static final Logger LOG = Logger.getGlobal();
@@ -52,6 +77,12 @@ public class PlayerXmlUtils {
         // private utility class
     }
 
+    /**
+     * Parse a player form an XML element.
+     *
+     * @param playerElement the player XML element
+     * @return the parsed player
+     */
     public static Player parsePlayer(Element playerElement) {
         String firstName = playerElement.getAttribute(FIRST_NAME);
         String lastName = playerElement.getAttribute(LAST_NAME);
@@ -63,6 +94,13 @@ public class PlayerXmlUtils {
         return PlayerFactory.createPlayer(firstName, lastName, nickName);
     }
 
+    /**
+     * Save a player to an XML element.
+     *
+     * @param doc the XML document
+     * @param parentElement the element to append the player to
+     * @param player the player to save
+     */
     public static void createPlayerXmlElement(Document doc, Element parentElement, Player player) {
         Element playerElement = doc.createElement(PLAYER_ELEMENT);
         playerElement.setAttribute(ID, Integer.toString(player.getID()));
@@ -71,7 +109,13 @@ public class PlayerXmlUtils {
         parentElement.appendChild(playerElement);
     }
 
-    public static List<Player> parsePlayersFile(File file) {
+    /**
+     * Parse players from an XML file.
+     *
+     * @param file the file to parse
+     * @return list of players saved in the given file
+     */
+    public static List<Player> parsePlayersXMLFile(File file) {
         DocumentBuilderFactory builderFactory;
         builderFactory = DocumentBuilderFactory.newInstance();
         try {
