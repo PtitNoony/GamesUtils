@@ -56,6 +56,15 @@ public class PlayerFactory {
         return PLAYERS.entrySet().stream().map(entry -> entry.getValue()).collect(Collectors.toList());
     }
 
+    public static Player getPlayerFromName(String playerName) {
+        for (Player p : PLAYERS.values()) {
+            if (p.getFirstName().equals(playerName)) {
+                return p;
+            }
+        }
+        return createPlayer(playerName, "", playerName);
+    }
+
     /**
      * Create a player using the given parameters.
      *
@@ -128,7 +137,7 @@ public class PlayerFactory {
         }
     }
 
-    private static class PlayerImpl implements Player {
+    public static class PlayerImpl implements Player {
 
         private final int pUniqueID;
         private final String pFirstName;
